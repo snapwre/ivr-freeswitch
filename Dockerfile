@@ -13,10 +13,15 @@ FROM debian:bookworm-slim
 ARG DEBIAN_FRONTEND=noninteractive
 
 # Keep this package list in sync with the consuming repo's modules.conf.xml.
+# unixodbc + odbc-postgresql give FreeSWITCH's ODBC-enabled core a PostgreSQL
+# backend (core-db-dsn over ODBC) — this build ships neither native pgsql nor
+# mod_pgsql, so ODBC is the supported route to put core state in Postgres
+# instead of the lock-prone / corruption-prone on-disk SQLite.
 RUN --mount=type=secret,id=signalwire_token \
     set -eux; \
     apt-get update; \
-    apt-get install -y --no-install-recommends gnupg2 wget ca-certificates; \
+    apt-get install -y --no-install-recommends gnupg2 wget ca-certificates \
+      unixodbc odbc-postgresql; \
     TOKEN="$(cat /run/secrets/signalwire_token)"; \
     wget --http-user=signalwire --http-password="$TOKEN" \
       -O /usr/share/keyrings/signalwire-freeswitch-repo.gpg \

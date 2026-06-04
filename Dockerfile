@@ -36,7 +36,6 @@ RUN --mount=type=secret,id=signalwire_token \
       freeswitch-mod-expr freeswitch-mod-hash freeswitch-mod-amr freeswitch-mod-spandsp \
       freeswitch-mod-logfile \
       freeswitch-mod-timerfd; \
-      freeswitch-mod-hiredis; \
     apt-get purge -y --auto-remove wget gnupg2; \
     rm -f /etc/apt/auth.conf /etc/apt/sources.list.d/freeswitch.list \
           /usr/share/keyrings/signalwire-freeswitch-repo.gpg; \

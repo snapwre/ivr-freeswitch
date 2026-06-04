@@ -34,7 +34,6 @@ RUN --mount=type=secret,id=signalwire_token \
       freeswitch-mod-sndfile freeswitch-mod-native-file freeswitch-mod-tone-stream \
       freeswitch-mod-lua freeswitch-mod-curl freeswitch-mod-say-en \
       freeswitch-mod-expr freeswitch-mod-hash freeswitch-mod-amr freeswitch-mod-spandsp \
-      freeswitch-mod-gsm \
       freeswitch-mod-logfile \
       freeswitch-mod-timerfd; \
     apt-get purge -y --auto-remove wget gnupg2; \

@@ -12,11 +12,6 @@ FROM debian:bookworm-slim
 
 ARG DEBIAN_FRONTEND=noninteractive
 
-# Keep this package list in sync with the consuming repo's modules.conf.xml.
-# unixodbc + odbc-postgresql give FreeSWITCH's ODBC-enabled core a PostgreSQL
-# backend (core-db-dsn over ODBC) — this build ships neither native pgsql nor
-# mod_pgsql, so ODBC is the supported route to put core state in Postgres
-# instead of the lock-prone / corruption-prone on-disk SQLite.
 RUN --mount=type=secret,id=signalwire_token \
     set -eux; \
     apt-get update; \
@@ -38,7 +33,10 @@ RUN --mount=type=secret,id=signalwire_token \
       freeswitch-mod-commands freeswitch-mod-dptools freeswitch-mod-dialplan-xml \
       freeswitch-mod-sndfile freeswitch-mod-native-file freeswitch-mod-tone-stream \
       freeswitch-mod-lua freeswitch-mod-curl freeswitch-mod-say-en \
-      freeswitch-mod-expr freeswitch-mod-hash freeswitch-mod-amr freeswitch-mod-spandsp; \
+      freeswitch-mod-expr freeswitch-mod-hash freeswitch-mod-amr freeswitch-mod-spandsp \
+      freeswitch-mod-gsm \
+      freeswitch-mod-logfile \
+      freeswitch-mod-timerfd; \
     apt-get purge -y --auto-remove wget gnupg2; \
     rm -f /etc/apt/auth.conf /etc/apt/sources.list.d/freeswitch.list \
           /usr/share/keyrings/signalwire-freeswitch-repo.gpg; \
